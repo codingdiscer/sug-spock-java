@@ -5,14 +5,14 @@ import spock.lang.Specification
 /**
  * Tests a very basic scenario
  */
-class Scenario1Spec extends Specification {
+class Interaction1Spec extends Specification {
 
-    public interface FriendlyService {
+    public interface FriendlyInterface {
         // returns a friendly greeting
         String getGreeting(String name);
     }
 
-    public class MyFriendlyService implements FriendlyService {
+    public class FriendlyService implements FriendlyInterface {
         @Override
         public String getGreeting(String name) {
             return new StringBuilder("hello ").append(name).append("!").toString();
@@ -41,13 +41,13 @@ class Scenario1Spec extends Specification {
     //************ test case ***************************
 
     def 'test the getGreeting() method returns as expected'() {
-        MyFriendlyService myFriendlyService = new MyFriendlyService()
+        FriendlyService myFriendlyService = new FriendlyService()
 
         when:
         String greeting = myFriendlyService.getGreeting('billy')
 
         then:
-        greeting == 'hello billy!'
+        greeting == 'hello billy'
     }
 
 }

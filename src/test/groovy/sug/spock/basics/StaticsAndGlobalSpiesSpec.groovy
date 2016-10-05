@@ -10,13 +10,13 @@ import spock.lang.Specification
 class StaticsAndGlobalSpiesSpec extends Specification {
 
 
-    interface FriendlyService {
+    interface FriendlyInterface {
         // returns a friendly greeting
         String getGreeting(String name)
     }
 
     @Slf4j
-    static class MyFriendlyService implements FriendlyService {
+    static class FriendlyService implements FriendlyInterface {
         @Override
         String getGreeting(String name) {
             log.info "inside getGreeting(${name})..."
@@ -24,9 +24,17 @@ class StaticsAndGlobalSpiesSpec extends Specification {
         }
 
         static String getGreetingStatically(String name) {
-            new MyFriendlyService().getGreeting(name)
+            new FriendlyService().getGreeting(name)
         }
     }
+
+
+
+
+
+
+
+
 
 
 
@@ -34,11 +42,21 @@ class StaticsAndGlobalSpiesSpec extends Specification {
 
     def 'test normal static call'() {
         when:
-        String greeting = MyFriendlyService.getGreetingStatically('elizabeth')
+        String greeting = FriendlyService.getGreetingStatically('elizabeth')
 
         then:
-        greeting == 'hello elizabeth!'
+        greeting == 'hello elizabeth'
     }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -46,29 +64,48 @@ class StaticsAndGlobalSpiesSpec extends Specification {
     def 'test overriding the static method with a Spy'() {
 
         given: 'declare a global spy on the class under test'
-        GroovySpy(MyFriendlyService, global: true)
+        GroovySpy(FriendlyService, global: true)
 
 
         when: 'the static method is called without overriding..'
-        String greeting = MyFriendlyService.getGreetingStatically('elizabeth')
+        String greeting = FriendlyService.getGreetingStatically('elizabeth')
 
         then: 'the standard greeting is returned'
-        greeting == 'hello elizabeth!'
+        greeting == 'hello elizabeth'
+
+
+
+
+
+
+
+
+
+
+
 
 
         when: 'the static method is overridden..'
-        greeting = MyFriendlyService.getGreetingStatically('elizabeth')
+        greeting = FriendlyService.getGreetingStatically('elizabeth')
 
         then: 'the standard greeting is returned'
-        1 * MyFriendlyService.getGreetingStatically(_) >> 'wazzup elizabeth!'
+        1 * FriendlyService.getGreetingStatically(_) >> 'wazzup elizabeth!'
         greeting == 'wazzup elizabeth!'
     }
 
 
+
+
+
+
+
+
+
+
     def 'test that logging occurs as expected'() {
         given: 'create a spy on the logger class'
-        MyFriendlyService myFriendlyService = new MyFriendlyService()
-        Logger logger = GroovySpy([global: true, constructorArgs: [MyFriendlyService.name, null, null]], Logger)
+        FriendlyService myFriendlyService = new FriendlyService()
+        Logger logger = GroovySpy([global: true, constructorArgs: [FriendlyService.name, null, null]], Logger)
 
 
         when:

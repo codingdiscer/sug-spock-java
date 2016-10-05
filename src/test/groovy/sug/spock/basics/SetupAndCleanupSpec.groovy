@@ -29,9 +29,9 @@ class SetupAndCleanupSpec extends Specification {
 		// do some work
 		String performWork() throws Exception {
 			if(!ready) {
-				throw new Exception("not ready for work");
+				throw new Exception("not ready for work!");
 			}
-			return "ok, here is some useful work.";
+			return "ok, here is some useful work!";
 		}
 	}
 
@@ -91,8 +91,16 @@ class SetupAndCleanupSpec extends Specification {
 		
 		then:	'an exception is thrown because the resource is not ready'
 		def exception = thrown(Exception)
-		exception.message.contains('not ready for work')		
+		exception.message == 'not ready for work'
 	}
+
+
+
+
+
+
+
+
 
 
 
@@ -102,7 +110,7 @@ class SetupAndCleanupSpec extends Specification {
 		String output = expensiveResource.performWork()
 		
 		then:	'work is performed and no exception is thrown'
-		output.contains('work')
+		output == 'ok, here is some useful work'
 		noExceptionThrown()
 	}
 	

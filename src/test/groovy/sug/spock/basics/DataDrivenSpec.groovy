@@ -6,7 +6,7 @@ import spock.lang.Unroll
 /**
  * Shows an example of a data driven test
  */
-class BasicDataDrivenSpec extends Specification {
+class DataDrivenSpec extends Specification {
 
     @Unroll
     def 'test raising #base to the power of #power using a data table'() {
@@ -18,8 +18,15 @@ class BasicDataDrivenSpec extends Specification {
         4    | 0     | 1
         5    | 1     | 5
         6    | 2     | 36
-        7    | 3     | 343
+        7    | 3     | 401
     }
+
+
+
+
+
+
+
 
 
     @Unroll
